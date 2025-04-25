@@ -394,37 +394,20 @@ type ChatListItemProps = {
 
 const ChatListItem = React.memo<ChatListItemProps>(
   props => {
-    const { chatListItem, onClick, roleTab } = props
+    const { chatListItem } = props
 
     // if not loaded by virtual list yet
     if (typeof chatListItem === 'undefined') return <PlaceholderChatListItem />
 
     if (chatListItem.kind == 'ChatListItem') {
-      return (
-        <ChatListItemNormal
-          chatListItem={chatListItem}
-          onClick={onClick}
-          roleTab={roleTab}
-          isSelected={props.isSelected}
-          onContextMenu={props.onContextMenu}
-          isContextMenuActive={props.isContextMenuActive}
-        />
-      )
+      return <ChatListItemNormal {...props} chatListItem={chatListItem} />
     } else if (chatListItem.kind == 'Error') {
-      return (
-        <ChatListItemError
-          chatListItem={chatListItem}
-          onClick={onClick}
-          roleTab={roleTab}
-          isSelected={props.isSelected}
-          onContextMenu={props.onContextMenu}
-        />
-      )
+      return <ChatListItemError {...props} chatListItem={chatListItem} />
     } else if (chatListItem.kind == 'ArchiveLink') {
       return (
         <ChatListItemArchiveLink
           chatListItem={chatListItem}
-          onClick={onClick}
+          onClick={props.onClick}
         />
       )
     } else {
