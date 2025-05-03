@@ -40,6 +40,9 @@ import { useWebxdcMessageSentListener } from '../../../hooks/useWebxdcMessageSen
 import type { T } from '@deltachat/jsonrpc-client'
 import CreateChat from '../../dialogs/CreateChat'
 import { runtime } from '@deltachat-desktop/runtime-interface'
+import { getLogger } from '@deltachat-desktop/shared/logger'
+
+const log = getLogger('MainScreen')
 
 type Props = {
   accountId?: number
@@ -380,15 +383,41 @@ function ChatHeading({ chat }: { chat: T.FullChat }) {
     }
   }
 
+  let buttonLabel: string
+  switch (chat.chatType) {
+    case C.DC_CHAT_TYPE_SINGLE: {
+      buttonLabel = tx('menu_view_profile')
+      break
+    }
+    case C.DC_CHAT_TYPE_GROUP: {
+      // If you're no longer a member, editing a group is not possible,
+      // but we don't have a better string.
+      buttonLabel = tx('menu_edit_group')
+      break
+    }
+    case C.DC_CHAT_TYPE_MAILINGLIST: {
+      // We don't have a more appropriate one
+      buttonLabel = tx('menu_view_profile')
+      break
+    }
+    case C.DC_CHAT_TYPE_BROADCAST: {
+      buttonLabel = tx('edit_broadcast_list')
+      break
+    }
+    case C.DC_CHAT_TYPE_UNDEFINED: {
+      buttonLabel = tx('menu_view_profile')
+      break
+    }
+    default: {
+      buttonLabel = tx('menu_view_profile')
+      log.warn(`Unknown chatType ${chat.chatType}`)
+    }
+  }
+
   const subtitle = chatSubtitle(chat)
 
   return (
-    <button
-      className='navbar-heading navbar-heading--button'
-      data-no-drag-region
-      onClick={onTitleClick}
-      data-testid='chat-info-button'
-    >
+    <div className='navbar-heading' data-no-drag-region>
       <Avatar
         displayName={chat.name}
         color={chat.color}
@@ -417,7 +446,13 @@ function ChatHeading({ chat }: { chat: T.FullChat }) {
           <div className='navbar-chat-subtitle'>{subtitle}</div>
         )}
       </div>
-    </button>
+      <button
+        onClick={onTitleClick}
+        aria-label={buttonLabel}
+        data-testid='chat-info-button'
+        className='navbar-heading-chat-info-button'
+      ></button>
+    </div>
   )
 }
 
