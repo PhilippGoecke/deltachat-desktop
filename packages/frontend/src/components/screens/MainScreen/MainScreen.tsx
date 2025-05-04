@@ -268,7 +268,11 @@ export default function MainScreen({ accountId }: Props) {
           }}
         />
       </section>
-      <section className={styles.chatAndNavbar}>
+      <section
+        role='region'
+        aria-labelledby='chat-section-heading'
+        className={styles.chatAndNavbar}
+      >
         <nav className={styles.chatNavbar} data-tauri-drag-region>
           {smallScreenMode && (
             <span data-no-drag-region>
@@ -431,7 +435,13 @@ function ChatHeading({ chat }: { chat: T.FullChat }) {
       />
       <div style={{ marginLeft: '7px', overflow: 'hidden' }}>
         <div className='navbar-chat-name'>
-          <div className='truncated'>{chat.name}</div>
+          <h2 id='chat-section-heading' className='truncated'>
+            {chat.name}
+            <span className='visually-hidden'>
+              <br />
+              {tx('chat')}
+            </span>
+          </h2>
           <div className='chat_property_icons'>
             {chat.isProtected && <InlineVerifiedIcon />}
             {chat.ephemeralTimer !== 0 && (
