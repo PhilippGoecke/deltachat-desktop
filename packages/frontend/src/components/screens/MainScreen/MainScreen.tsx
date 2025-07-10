@@ -559,11 +559,15 @@ function AppIcons({
   accountId: number | undefined
   apps: T.Message[]
 }) {
+  const tx = useTranslationFunction()
+
   if (!accountId || !apps || apps.length === 0) {
     return null
   }
   return (
-    <div
+    <section
+      role='region'
+      aria-label={tx('webxdc_apps')}
       className={styles.webxdcIcons}
       data-testid='last-used-apps'
       data-no-drag-region='true'
@@ -571,6 +575,6 @@ function AppIcons({
       {apps.map(app => (
         <AppIcon key={app.id} accountId={accountId} app={app} />
       ))}
-    </div>
+    </section>
   )
 }
