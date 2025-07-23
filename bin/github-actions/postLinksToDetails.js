@@ -4,7 +4,7 @@ const sha = JSON.parse(readFileSync(process.env['GITHUB_EVENT_PATH'], 'utf8'))
   .pull_request.head.sha
 
 const base_url =
-  'https://download.delta.chat/desktop/preview/deltachat-desktop.'
+  'https://download.delta.chat/desktop/preview/deltachat-desktop'
 
 const GITHUB_API_URL =
   'https://api.github.com/repos/deltachat/deltachat-desktop/statuses/' + sha
@@ -22,17 +22,17 @@ if (process.platform === 'darwin') {
   // platform_status['target_url'] = base_url + prId + '.dmg'
   platform_status['target_url'] =
     FULL_ARTIFACT_URL ||
-    base_url + 'mas-' + branchName + '.zip'
+    base_url + '-mas.' + branchName + '.zip'
 } else if (process.platform === 'win32') {
   platform_status['context'] = '⭐ Windows Preview Build (portable)'
   platform_status['target_url'] =
     FULL_ARTIFACT_URL ||
-    base_url + branchName + '.portable.exe'
+    base_url + '.' + branchName + '.portable.exe'
 } else if (process.platform === 'linux') {
   platform_status['context'] = '⭐ Linux Preview Build'
   platform_status['target_url'] =
     FULL_ARTIFACT_URL ||
-    base_url + branchName + '.AppImage'
+    base_url + '.' + branchName + '.AppImage'
 } else {
   throw new Error('Unsupported platform: ' + process.platform)
 }
