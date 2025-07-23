@@ -4,7 +4,7 @@ const sha = JSON.parse(readFileSync(process.env['GITHUB_EVENT_PATH'], 'utf8'))
   .pull_request.head.sha
 
 const base_url =
-  'https://download.delta.chat/desktop/preview/deltachat-desktop-'
+  'https://download.delta.chat/desktop/preview/deltachat-desktop.'
 
 const GITHUB_API_URL =
   'https://api.github.com/repos/deltachat/deltachat-desktop/statuses/' + sha
