@@ -112,7 +112,7 @@ jobs:
       if: steps.upload.outcome == 'success'
       run: node ./bin/github-actions/postLinksToDetails.js
       env:
-       PR_ID: ${{ steps.prepare.outputs.branch }}
+       PR_BRANCH: ${{ steps.prepare.outputs.branch }}
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload result to artifacts
       if: contains(github.event.pull_request.body, '#public-preview') == false || steps.upload.outcome == 'failure'
